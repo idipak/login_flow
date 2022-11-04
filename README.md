@@ -3,8 +3,8 @@
 This project has login flow design and simple animation widgets are used here to add interactivity in the app.
 
 <p align="center">
-    <img src="screenshots/screenshot1.png" width="100%">
-    <img src="screenshots/screenshot2.png" width="100%">
+    <img src="screenshots/screenshot1.png" width="48%">
+    <img src="screenshots/screenshot2.png" width="48%">
 </p>
 
 ## Branches
