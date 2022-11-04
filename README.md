@@ -1,16 +1,23 @@
-# login_flow
+# Flutter Login Flow design with animation
 
-A new Flutter project.
+This project has login flow design and simple animation widgets are used here to add interactivity in the app.
 
-## Getting Started
+<p align="center">
+    <img src="screenshots/screenshot1.png" width="100%">
+    <img src="screenshots/screenshot2.png" width="100%">
+</p>
 
-This project is a starting point for a Flutter application.
+## Branches
 
-A few resources to get you started if this is your first Flutter project:
+Project without animation
+> git checkout start
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Project with animation
+> git checkout anim
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# License
+
+This application is released under the [MIT license](LICENSE). You can use the code for any purpose, including commercial projects.
+
+[![license](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
