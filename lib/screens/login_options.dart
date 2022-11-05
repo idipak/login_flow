@@ -39,41 +39,54 @@ class _LoginOptionsState extends State<LoginOptions> {
             ),
           ),
 
-          Positioned(
+          AnimatedPositioned(
               left: 10,
-              bottom: size.height / 3 + 20,
-              child: const Image(image: AssetImage(Assets.car), height: 100,)),
+              duration: const Duration(milliseconds: 500),
+              bottom: _showLoginForm ? size.height / 3 + 80 : size.height / 3 + 20,
+              child: const Hero(
+                tag: "car",
+                  child: Image(image: AssetImage(Assets.car), height: 100,))),
 
-          !_showLoginForm ?
           Positioned(
-            // alignment: Alignment.bottomCenter,
-            bottom: size.height * 0.15,
-            child: SizedBox(
-              width: size.width,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-
-                children: [
-                  RoundedButton(onPress: (){
-                    setState(() {
-                      _showLoginForm = true;
-                    });
-                  }, text: "Login Here",),
-                  RoundedButton(onPress: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                  }, text: "Skip Login", color: Colors.white54, textColor: Colors.black87,),
-                ],
-              ),
-            )
-          )
-              : Positioned(
+            // bottom: _showLoginForm ? size.height * 0.14 : size.height * 0.15,
             bottom: size.height * 0.14,
-            child: LoginForm(onCloseButtonTap: (){
-              setState(() {
-                _showLoginForm = false;
-              });
-            },)
-          )
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500),
+            transitionBuilder: (Widget child, Animation<double> animation){
+                return ScaleTransition(scale: animation, child: child,);
+            },
+            child: !_showLoginForm ?
+                SizedBox(
+                  width: size.width,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      RoundedButton(
+                        onPress: (){
+                        setState(() {
+                          _showLoginForm = true;
+                        });
+                      }, text: "Login Here",),
+
+                      RoundedButton(
+                        onPress: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                      }, text: "Skip Login", color: Colors.white54, textColor: Colors.black87,),
+
+                    ],
+                  ),
+                )
+                : LoginForm(
+                    onCloseButtonTap: (){
+                        setState(() {
+                          _showLoginForm = false;
+                        });
+                      },
+                  ),
+            ),
+          ),
+
+
 
         ],
       ),
