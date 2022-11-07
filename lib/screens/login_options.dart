@@ -42,7 +42,7 @@ class _LoginOptionsState extends State<LoginOptions> {
           AnimatedPositioned(
               left: 10,
               duration: const Duration(milliseconds: 500),
-              bottom: _showLoginForm ? size.height / 3 + 80 : size.height / 3 + 20,
+              bottom: _showLoginForm ? size.height / 3 + 100 : size.height / 3 + 20,
               child: const Hero(
                 tag: "car",
                   child: Image(image: AssetImage(Assets.car), height: 100,))),
