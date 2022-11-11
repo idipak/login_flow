@@ -5,20 +5,15 @@ import 'package:login_flow/components/login_form.dart';
 import 'package:login_flow/components/rounded_button.dart';
 
 import 'home.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginOptions extends StatefulWidget {
-  const LoginOptions({Key? key}) : super(key: key);
+final showLoginFormState = StateProvider<bool>((ref) => false);
 
-  @override
-  State<LoginOptions> createState() => _LoginOptionsState();
-}
-
-class _LoginOptionsState extends State<LoginOptions> {
-
-  bool _showLoginForm = false;
+class LoginOptions extends ConsumerWidget {
+  const LoginOptions({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -39,23 +34,26 @@ class _LoginOptionsState extends State<LoginOptions> {
             ),
           ),
 
-          AnimatedPositioned(
-              left: 10,
-              duration: const Duration(milliseconds: 500),
-              bottom: _showLoginForm ? size.height / 3 + 100 : size.height / 3 + 20,
-              child: const Hero(
-                tag: "car",
-                  child: Image(image: AssetImage(Assets.car), height: 100,))),
+          Consumer(builder: (context, ref, _){
+            return AnimatedPositioned(
+                left: 10,
+                duration: const Duration(milliseconds: 500),
+                bottom: ref.watch(showLoginFormState) ? size.height / 3 + 100 : size.height / 3 + 20,
+                child: const Hero(
+                    tag: "car",
+                    child: Image(image: AssetImage(Assets.car), height: 100,)));
+          }),
 
-          Positioned(
-            // bottom: _showLoginForm ? size.height * 0.14 : size.height * 0.15,
-            bottom: size.height * 0.14,
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-            transitionBuilder: (Widget child, Animation<double> animation){
-                return ScaleTransition(scale: animation, child: child,);
-            },
-            child: !_showLoginForm ?
+          Consumer(builder: (context, ref, _){
+            return Positioned(
+              // bottom: _showLoginForm ? size.height * 0.14 : size.height * 0.15,
+              bottom: size.height * 0.14,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                transitionBuilder: (Widget child, Animation<double> animation){
+                  return ScaleTransition(scale: animation, child: child,);
+                },
+                child: ref.watch(showLoginFormState) == false ?
                 SizedBox(
                   width: size.width,
                   child: Column(
@@ -63,28 +61,25 @@ class _LoginOptionsState extends State<LoginOptions> {
                     children: [
                       RoundedButton(
                         onPress: (){
-                        setState(() {
-                          _showLoginForm = true;
-                        });
-                      }, text: "Login Here",),
+                          ref.read(showLoginFormState.notifier).state = true;
+                        }, text: "Login Here",),
 
                       RoundedButton(
                         onPress: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                      }, text: "Skip Login", color: Colors.white54, textColor: Colors.black87,),
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                        }, text: "Skip Login", color: Colors.white54, textColor: Colors.black87,),
 
                     ],
                   ),
                 )
-                : LoginForm(
-                    onCloseButtonTap: (){
-                        setState(() {
-                          _showLoginForm = false;
-                        });
-                      },
-                  ),
-            ),
-          ),
+                    : LoginForm(
+                  onCloseButtonTap: (){
+                    ref.read(showLoginFormState.notifier).state = false;
+                  },
+                ),
+              ),
+            );
+          })
 
 
 
