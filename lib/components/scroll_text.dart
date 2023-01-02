@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final textSliderIndex = StateProvider<int>((ref) => 0);
 
 
-class ScrollText extends StatefulWidget {
+class ScrollText extends ConsumerWidget {
   const ScrollText({Key? key}) : super(key: key);
 
-  @override
-  State<ScrollText> createState() => _ScrollTextState();
-}
-
-class _ScrollTextState extends State<ScrollText> {
-  final _currentPage = ValueNotifier(0);
-
-  final sampleText = [
+  final sampleText = const [
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     "It is a long established fact that a reader will be distracted by the readable content.",
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor."
   ];
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Column(
@@ -27,7 +23,7 @@ class _ScrollTextState extends State<ScrollText> {
             child: PageView.builder(
                 itemCount: sampleText.length,
                 onPageChanged: (count){
-                  _currentPage.value = count;
+                  ref.read(textSliderIndex.notifier).state = count;
                 },
                 itemBuilder: (context, count){
                   return Center(child: Text(sampleText[count],
@@ -35,19 +31,18 @@ class _ScrollTextState extends State<ScrollText> {
                 }),
           ),
 
-          ValueListenableBuilder(
-              valueListenable: _currentPage,
-              builder: (_, value, child){
+          Consumer(
+              builder: (context, ref, _){
+                final selectedIndex = ref.watch(textSliderIndex);
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ...List.generate(sampleText.length, (index) =>
-                        IndicatorBar(active: index == value))
+                        IndicatorBar(active: index == selectedIndex))
                         .toList()
                   ],
                 );
               })
-
 
         ],
       ),
