@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login_flow/assets.dart';
 
+import '../components/login_form.dart';
 import '../components/price_card.dart';
 import '../components/scroll_text.dart';
 
-class Home extends StatelessWidget {
+class Home extends ConsumerWidget {
   const Home({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text("Home"),),
+      appBar: AppBar(title: Text("Home, ${user.email.split("@").first}")),
       body: SingleChildScrollView(
         child: Column(
           children: const [

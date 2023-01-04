@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login_flow/components/rounded_button.dart';
 import 'package:login_flow/screens/home.dart';
 
-class LoginForm extends StatelessWidget {
+import '../models/user.dart';
+
+final userProvider = Provider<User>((ref) => User());
+
+class LoginForm extends ConsumerWidget {
   final Function() onCloseButtonTap;
   const LoginForm({Key? key, required this.onCloseButtonTap}) : super(key: key);
 
   static final _formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     return Container(
       height: 300,
@@ -37,6 +42,9 @@ class LoginForm extends StatelessWidget {
                       prefixIcon: Icon(Icons.email),
                       hintText: "Email Id"
                   ),
+                  onChanged: (value){
+                    ref.read(userProvider).email = value;
+                  },
                 ),
                 TextFormField(
                   validator: _emptyValidate,
